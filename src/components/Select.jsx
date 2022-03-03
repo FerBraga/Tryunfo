@@ -3,24 +3,31 @@ import PropType from 'prop-types';
 
 class Select extends React.Component {
   render() {
-    const { data } = this.props;
+    const { data, text, onInputChange, value } = this.props;
     return (
-      <select
-        data-testid={ data }
-        defaultValue="DEFAULT"
-        name="rare"
-        // onChange={ handleChange }
-      >
-        <option id="normal">normal</option>
-        <option id="raro">raro</option>
-        <option id="muito">muito raro</option>
-      </select>
+      <label htmlFor={ text }>
+        { text }
+        <select
+          data-testid={ data }
+          defaultValue="DEFAULT"
+          name={ text }
+          onChange={ onInputChange }
+          value={ value }
+        >
+          <option value="normal">normal</option>
+          <option value="raro">raro</option>
+          <option value="muito">muito raro</option>
+        </select>
+      </label>
     );
   }
 }
 
 Select.propTypes = {
   data: PropType.string.isRequired,
+  text: PropType.string.isRequired,
+  onInputChange: PropType.func.isRequired,
+  value: PropType.bool.isRequired,
 };
 
 export default Select;
