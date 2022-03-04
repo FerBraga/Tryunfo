@@ -9,14 +9,14 @@ class Select extends React.Component {
         { text }
         <select
           data-testid={ data }
-          defaultValue="DEFAULT"
+          // defaultValue="DEFAULT"
           name={ text }
-          onChange={ onInputChange }
           value={ value }
+          onChange={ onInputChange }
         >
-          <option value="normal">normal</option>
-          <option value="raro">raro</option>
-          <option value="muito">muito raro</option>
+          <option>normal</option>
+          <option>raro</option>
+          <option>muito raro</option>
         </select>
       </label>
     );

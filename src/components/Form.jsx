@@ -16,7 +16,8 @@ class Form extends React.Component {
       // hasTrunfo,
       isSaveButtonDisabled,
       onInputChange,
-      onSaveButtonClick } = this.props;
+      onSaveButtonClick,
+    } = this.props;
     return (
       <div>
         <Input
