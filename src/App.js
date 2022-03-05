@@ -17,6 +17,7 @@ class App extends React.Component {
       cardTrunfo: false,
       // hasTrunfo: false,
       isSaveButtonDisabled: true,
+      cards: [],
     };
     this.onInputChange = this.onInputChange.bind(this);
     // this.validation = this.validation.bind(this);
@@ -31,7 +32,24 @@ class App extends React.Component {
     }, this.validation);
   };
 
-validation = () => {
+ onSaveButtonClick = (event) => {
+   event.preventDefault();
+   this.setState((prevState) => ({
+     cards: [...prevState.cards, prevState],
+   }));
+   this.setState({
+     cardName: '',
+     cardDescription: '',
+     cardAttr1: 0,
+     cardAttr2: 0,
+     cardAttr3: 0,
+     cardImage: '',
+     cardRare: 'normal',
+     cardTrunfo: false,
+   });
+ }
+
+validation = () => { // feito com colaboração da colega Lígia
   const {
     cardName,
     cardImage,
@@ -60,9 +78,6 @@ validation = () => {
     this.setState({ isSaveButtonDisabled: true });
   }
 }
-// onSaveButtonClick({ target }) {
-//   target.name;
-// }
 
 render() {
   const {
