@@ -3,20 +3,23 @@ import PropType from 'prop-types';
 
 class Input extends React.Component {
   render() {
-    const { type, text, value, data, name, onInputChange, checked } = this.props;
+    const { type, text, value, data, name,
+      onInputChange, checked, hasTrunfo } = this.props;
     return (
-      <label htmlFor={ text }>
-        { text }
-        :
-        <input
-          type={ type }
-          name={ name }
-          data-testid={ data }
-          value={ value }
-          checked={ checked }
-          onChange={ onInputChange }
-        />
-      </label>
+      hasTrunfo ? 'Você já tem um Super Trunfo em seu baralho'
+        : (
+          <label htmlFor={ text }>
+            { text }
+            :
+            <input
+              type={ type }
+              name={ name }
+              data-testid={ data }
+              value={ value }
+              checked={ checked }
+              onChange={ onInputChange }
+            />
+          </label>)
     );
   }
 }
@@ -29,6 +32,7 @@ Input.propTypes = {
   name: PropType.string.isRequired,
   onInputChange: PropType.func.isRequired,
   checked: PropType.bool.isRequired,
+  hasTrunfo: PropType.bool.isRequired,
 
 };
 
