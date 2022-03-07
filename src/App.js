@@ -1,6 +1,7 @@
 import React from 'react';
 import Form from './components/Form';
 import Card from './components/Card';
+import Button from './components/Button';
 
 class App extends React.Component {
   constructor() {
@@ -20,6 +21,7 @@ class App extends React.Component {
       cards: [],
     };
     this.onInputChange = this.onInputChange.bind(this);
+    // this.handleDelete = this.handleDelete.bind(this);
     // this.validation = this.validation.bind(this);
     // this.onSaveButtonClick = this.onSaveButtonClick.bind(this);
   }
@@ -46,6 +48,19 @@ class App extends React.Component {
       cardTrunfo: false,
     }), this.validationHasTrunfo);
   }
+
+  handleDelete = (event) => {
+    const { cards } = this.state;
+    const cardInBookClicked = event.target.parentNode;
+    const findElementForDelete = cards
+      .filter((card) => (
+        card.cardName === cardInBookClicked.id
+      ));
+    this.setState({
+      cards: findElementForDelete,
+    }, this.validationHasTrunfo);
+    console.log(findElementForDelete);
+  };
 
   validationHasTrunfo = () => {
     const { cards } = this.state;
@@ -135,18 +150,24 @@ class App extends React.Component {
           cardRare={ cardRare }
           cardTrunfo={ cardTrunfo }
         />
-        <section>
-          {cards.map((card) => (<Card
-            key={ card.cardName }
-            cardName={ card.cardName }
-            cardDescription={ card.cardDescription }
-            cardAttr1={ card.cardAttr1 }
-            cardAttr2={ card.cardAttr2 }
-            cardAttr3={ card.cardAttr3 }
-            cardImage={ card.cardImage }
-            cardRare={ card.cardRare }
-            cardTrunfo={ card.cardTrunfo }
-          />
+
+        <section id="listCards">
+          {cards.map((card) => (
+            <div key={ card.cardName }>
+              <Card
+                id={ card.cardName }
+                key={ card.cardName }
+                cardName={ card.cardName }
+                cardDescription={ card.cardDescription }
+                cardAttr1={ card.cardAttr1 }
+                cardAttr2={ card.cardAttr2 }
+                cardAttr3={ card.cardAttr3 }
+                cardImage={ card.cardImage }
+                cardRare={ card.cardRare }
+                cardTrunfo={ card.cardTrunfo }
+              />
+              <Button handleDelete={ this.handleDelete } />
+            </div>
           ))}
         </section>
       </div>
