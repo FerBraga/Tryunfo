@@ -19,7 +19,7 @@ class Form extends React.Component {
       onSaveButtonClick,
     } = this.props;
     return (
-      <div>
+      <form>
         <Input
           data="name-input"
           type="text"
@@ -101,7 +101,7 @@ class Form extends React.Component {
         >
           Salvar
         </button>
-      </div>
+      </form>
     );
   }
 }

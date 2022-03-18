@@ -2,6 +2,7 @@ import React from 'react';
 import Form from './components/Form';
 import Card from './components/Card';
 import Button from './components/Button';
+import Filter from './components/Filter';
 
 class App extends React.Component {
   constructor() {
@@ -9,21 +10,18 @@ class App extends React.Component {
     this.state = {
       cardName: '',
       cardDescription: '',
-      name: '',
       cardAttr1: 0,
       cardAttr2: 0,
       cardAttr3: 0,
       cardImage: '',
       cardRare: 'normal',
       cardTrunfo: false,
-      // hasTrunfo: false,
+      hasTrunfo: false,
       isSaveButtonDisabled: true,
       cards: [],
+      // cardsFiltered: [],
+      cardsFilter: '',
     };
-    this.onInputChange = this.onInputChange.bind(this);
-    // this.handleDelete = this.handleDelete.bind(this);
-    // this.validation = this.validation.bind(this);
-    // this.onSaveButtonClick = this.onSaveButtonClick.bind(this);
   }
 
   onInputChange = ({ target }) => {
@@ -34,10 +32,31 @@ class App extends React.Component {
     }, this.validation);
   };
 
-  onSaveButtonClick = (event) => {
-    event.preventDefault();
+  onSaveButtonClick = () => {
+    const {
+      cardName,
+      cardDescription,
+      cardAttr1,
+      cardAttr2,
+      cardAttr3,
+      cardImage,
+      cardRare,
+      cardTrunfo,
+    } = this.state;
+
+    const cartao = {
+      cardName,
+      cardDescription,
+      cardAttr1,
+      cardAttr2,
+      cardAttr3,
+      cardImage,
+      cardRare,
+      cardTrunfo,
+    };
+
     this.setState((prevState) => ({
-      cards: [...prevState.cards, prevState],
+      cards: [...prevState.cards, cartao],
       cardName: '',
       cardDescription: '',
       cardAttr1: 0,
@@ -49,12 +68,20 @@ class App extends React.Component {
     }), this.validationHasTrunfo);
   }
 
+  onFilterChange = ({ target }) => {
+    const valueTarget = target.value;
+
+    this.setState({
+      cardsFilter: valueTarget,
+    });
+  };
+
   handleDelete = (event) => {
     const { cards } = this.state;
     const cardInBookClicked = event.target.parentNode;
     const findElementForDelete = cards
       .filter((card) => (
-        card.cardName === cardInBookClicked.id
+        card.cardName !== cardInBookClicked.id
       ));
     this.setState({
       cards: findElementForDelete,
@@ -118,10 +145,12 @@ class App extends React.Component {
       cardTrunfo,
       hasTrunfo,
       isSaveButtonDisabled,
-      name,
       cards,
+      // cardsFiltered,
+      cardsFilter,
     } = this.state;
 
+    console.log(cardsFilter);
     return (
       <div>
         <h1>Tryunfo</h1>
@@ -138,7 +167,6 @@ class App extends React.Component {
           isSaveButtonDisabled={ isSaveButtonDisabled }
           onInputChange={ this.onInputChange }
           onSaveButtonClick={ this.onSaveButtonClick }
-          name={ name }
         />
         <Card
           cardName={ cardName }
@@ -150,26 +178,34 @@ class App extends React.Component {
           cardRare={ cardRare }
           cardTrunfo={ cardTrunfo }
         />
-
-        <section id="listCards">
-          {cards.map((card) => (
-            <div key={ card.cardName }>
-              <Card
-                id={ card.cardName }
-                key={ card.cardName }
-                cardName={ card.cardName }
-                cardDescription={ card.cardDescription }
-                cardAttr1={ card.cardAttr1 }
-                cardAttr2={ card.cardAttr2 }
-                cardAttr3={ card.cardAttr3 }
-                cardImage={ card.cardImage }
-                cardRare={ card.cardRare }
-                cardTrunfo={ card.cardTrunfo }
-              />
-              <Button handleDelete={ this.handleDelete } />
-            </div>
-          ))}
+        <section>
+          <Filter
+            cardName={ cardName }
+            cardsFilter={ cardsFilter }
+            onFilterChange={ this.onFilterChange }
+          />
         </section>
+
+        <div>
+          { cards
+            .filter((cardd) => cardd.cardName.includes(cardsFilter))
+            .map((cardss) => (
+              <div id={ cardss.cardName } key={ cardss.cardName }>
+                <Card
+                  // cardss={ cardss }
+                  key={ cardss.cardName }
+                  cardName={ cardss.cardName }
+                  cardDescription={ cardss.cardDescription }
+                  cardAttr1={ cardss.cardAttr1 }
+                  cardAttr2={ cardss.cardAttr2 }
+                  cardImage={ cardss.cardImage }
+                  cardRare={ cardss.cardRare }
+                  cardTrunfo={ cardss.cardTrunfo }
+                />
+                <Button handleDelete={ this.handleDelete } />
+              </div>))}
+          ;
+        </div>
       </div>
     );
   }

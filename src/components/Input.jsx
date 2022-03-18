@@ -8,7 +8,7 @@ class Input extends React.Component {
     return (
       hasTrunfo ? 'Você já tem um Super Trunfo em seu baralho'
         : (
-          <label htmlFor={ text }>
+          <label htmlFor={ name }>
             { text }
             :
             <input
