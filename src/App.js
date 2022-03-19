@@ -3,6 +3,7 @@ import Form from './components/Form';
 import Card from './components/Card';
 import Button from './components/Button';
 import Filter from './components/Filter';
+import SuperTrunfo from './components/SuperTrunfo';
 
 class App extends React.Component {
   constructor() {
@@ -21,6 +22,7 @@ class App extends React.Component {
       cards: [],
       // cardsFiltered: [],
       cardsFilter: '',
+      checked: true,
     };
   }
 
@@ -66,6 +68,19 @@ class App extends React.Component {
       cardRare: 'normal',
       cardTrunfo: false,
     }), this.validationHasTrunfo);
+  }
+
+  onInputChangeTrunfo = ({ target }) => {
+    const check = target.checked;
+    if (check) {
+      this.setState({
+        checked: true,
+      });
+    } else {
+      this.setState({
+        checked: false,
+      });
+    }
   }
 
   onFilterChange = ({ target }) => {
@@ -146,9 +161,45 @@ class App extends React.Component {
       hasTrunfo,
       isSaveButtonDisabled,
       cards,
-      // cardsFiltered,
       cardsFilter,
+      checked,
     } = this.state;
+
+    const trunfoList = cards.filter((card) => card.cardTrunfo === true)
+      .map((carta) => (
+        <div id={ carta.cardName } key={ carta.cardName }>
+          <Card
+            key={ carta.cardName }
+            cardName={ carta.cardName }
+            cardDescription={ carta.cardDescription }
+            cardAttr1={ carta.cardAttr1 }
+            cardAttr2={ carta.cardAttr2 }
+            cardAttr3={ carta.cardAttr3 }
+            cardImage={ carta.cardImage }
+            cardRare={ carta.cardRare }
+            cardTrunfo={ carta.cardTrunfo }
+          />
+          <Button handleDelete={ this.handleDelete } />
+        </div>));
+
+    const totalList = cards
+      .filter((item) => item.cardName.includes(cardsFilter))
+      .map((item) => (
+        <div id={ item.nome } key={ item.nome }>
+          <Card
+            // carta={ carta }
+            key={ item.cardName }
+            cardName={ item.cardName }
+            cardDescription={ item.cardDescription }
+            cardAttr1={ item.cardAttr1 }
+            cardAttr2={ item.cardAttr2 }
+            cardAttr3={ item.cardAttr3 }
+            cardImage={ item.cardImage }
+            cardRare={ item.cardRare }
+            cardTrunfo={ item.cardTrunfo }
+          />
+          <Button handleDelete={ this.handleDelete } />
+        </div>));
 
     console.log(cardsFilter);
     return (
@@ -184,31 +235,16 @@ class App extends React.Component {
             cardsFilter={ cardsFilter }
             onFilterChange={ this.onFilterChange }
           />
+          <SuperTrunfo
+            onInputChangeTrunfo={ this.onInputChangeTrunfo }
+            checked={ checked }
+          />
         </section>
-
-        <div>
-          { cards
-            .filter((cardd) => cardd.cardName.includes(cardsFilter))
-            .map((cardss) => (
-              <div id={ cardss.cardName } key={ cardss.cardName }>
-                <Card
-                  // cardss={ cardss }
-                  key={ cardss.cardName }
-                  cardName={ cardss.cardName }
-                  cardDescription={ cardss.cardDescription }
-                  cardAttr1={ cardss.cardAttr1 }
-                  cardAttr2={ cardss.cardAttr2 }
-                  cardImage={ cardss.cardImage }
-                  cardRare={ cardss.cardRare }
-                  cardTrunfo={ cardss.cardTrunfo }
-                />
-                <Button handleDelete={ this.handleDelete } />
-              </div>))}
-          ;
-        </div>
+        <section>
+          { checked ? trunfoList : totalList }
+        </section>
       </div>
     );
   }
 }
-
 export default App;
