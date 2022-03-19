@@ -22,7 +22,7 @@ class App extends React.Component {
       cards: [],
       // cardsFiltered: [],
       cardsFilter: '',
-      checked: true,
+      checked: false,
     };
   }
 
@@ -187,7 +187,7 @@ class App extends React.Component {
       .map((item) => (
         <div id={ item.nome } key={ item.nome }>
           <Card
-            // carta={ carta }
+            carta={ item }
             key={ item.cardName }
             cardName={ item.cardName }
             cardDescription={ item.cardDescription }
@@ -240,9 +240,9 @@ class App extends React.Component {
             checked={ checked }
           />
         </section>
-        <section>
-          { checked ? trunfoList : totalList }
-        </section>
+        <div>
+          { (checked) ? trunfoList : totalList }
+        </div>
       </div>
     );
   }
