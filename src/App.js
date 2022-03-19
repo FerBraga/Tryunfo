@@ -96,7 +96,7 @@ class App extends React.Component {
     const cardInBookClicked = event.target.parentNode;
     const findElementForDelete = cards
       .filter((card) => (
-        card.cardName !== cardInBookClicked.id
+        card.cardName === cardInBookClicked.id
       ));
     this.setState({
       cards: findElementForDelete,
